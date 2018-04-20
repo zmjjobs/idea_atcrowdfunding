@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+        所有的别名是这个类的简单类名
+        比如，com.bestgo.admanager.bean.User，它的别名就是User
+     -->
+    <typeAliases>
+        <package name="com.bestgo.admanager.bean"/>
+    </typeAliases>
+</configuration>

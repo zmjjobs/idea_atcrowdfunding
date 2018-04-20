@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bestgo.admanager.manager.dao.UserDao">
+
+    <sql id="allSql">id,loginacct,userpswd,username,email,createtime</sql>
+    <!-- 登录 -->
+    <select id="queryUserForLogin" parameterType="map" resultType="User">
+        select <include refid="allSql"/> from t_user where loginacct=#{loginacct} and userpswd=#{userpswd}
+    </select>
+
+</mapper>
