@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bestgo.admanager.manager.dao.UserDao">
+
+    <sql id="allSql">id,loginacct,userpswd,username,email,createtime</sql>
+    <!-- 登录 -->
+    <select id="queryUserForLogin" parameterType="map" resultType="User">
+        SELECT <include refid="allSql"/> FROM t_user WHERE loginacct=#{loginacct} and userpswd=#{userpswd}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="queryPage" parameterType="map" resultType="User">
+        SELECT <include refid="allSql"/> FROM t_user
+        <where>
+            <if test="queryText != null">
+                AND  loginacct LIKE concat('%',#{queryText},'%')
+            </if>
+        </where>
+        ORDER  BY createtime DESC
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="queryCount" parameterType="map" resultType="int">
+        SELECT COUNT(id) FROM  t_user
+        <where>
+            <if test="queryText != null">
+                AND  loginacct LIKE concat('%',#{queryText},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertUser" parameterType="user">
+        INSERT INTO t_user (
+          loginacct,username,userpswd,email,createtime
+        ) VALUES (
+          #{loginacct},#{username},#{userpswd},#{email},#{createtime}
+        )
+        <selectKey keyProperty="id" resultType="int">
+            SELECT @@IDENTITY AS id
+        </selectKey>
+    </insert>
+
+    <select id="queryUserIdByLoginacct" parameterType="string" resultType="integer">
+        SELECT id FROM t_user WHERE loginacct = #{loginacct}
+    </select>
+</mapper>

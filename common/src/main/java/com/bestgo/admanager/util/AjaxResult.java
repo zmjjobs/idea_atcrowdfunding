@@ -5,9 +5,10 @@ package com.bestgo.admanager.util;
  * @Date 2018-04-15 22:18
  * @Desc 用于Ajax异步，传参对象
  */
-public class AjaxResult {
+public class AjaxResult<T> {
     private boolean success;
     private String message;
+    private  Page<T> page;
 
     public AjaxResult() {
     }
@@ -31,5 +32,13 @@ public class AjaxResult {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Page<T> getPage() {
+        return page;
+    }
+
+    public void setPage(Page<T> page) {
+        this.page = page;
     }
 }
