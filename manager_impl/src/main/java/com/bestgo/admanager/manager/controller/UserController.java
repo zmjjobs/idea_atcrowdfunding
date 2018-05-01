@@ -74,6 +74,26 @@ public class UserController {
         AjaxResult result = new AjaxResult();
         try {
             int count = userService.saveUser(user);
+            result.setSuccess(count == 1);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping("/toEdit")
+    public String toEdit(Integer id,Map map){
+        User user = userService.queryUserById(id);
+        map.put("user",user);
+        return "user/edit";
+    }
+
+    @ResponseBody
+    @RequestMapping("/doEdit")
+    public Object doEdit(User user){
+        AjaxResult result = new AjaxResult();
+        try {
+            int count = userService.updateUser(user);
             if(count == -2){
                 result.setMessage("此账户名已被注册，请更改账户名！");
             }else{
@@ -85,26 +105,4 @@ public class UserController {
         }
         return result;
     }
-
-//    @RequestMapping("/index")
-//    public String index(@RequestParam(value="pageNum",required = false,defaultValue = "1") Integer pageNum,
-//                        @RequestParam(value="pageSize",required = false,defaultValue = "5")Integer pageSize, Map<String,Object> map){
-//        Map<String, Object> paramMap = new HashMap<>();
-//        paramMap.put("pageNum",pageNum);
-//        paramMap.put("pageSize",pageSize);
-//        Page<User> page = userService.queryPage(paramMap);
-//        map.put(Const.PAGE,page);
-//        return "user/index";
-//    }
-
-//        @RequestMapping("/index")
-//        public String index(@RequestParam(value="pageNum",required = false,defaultValue = "1") Integer pageNum,
-//                            @RequestParam(value="pageSize",required = false,defaultValue = "10")Integer pageSize, Map<String,Object> map){
-//            Map<String, Object> paramMap = new HashMap<>();
-//            paramMap.put("startIndex",(pageNum - 1) * pageSize);
-//            paramMap.put("pageSize",pageSize);
-//            List<User> userList = userService.queryPage(paramMap);
-//            map.put("userList",userList);
-//            return "user/index";
-//        }
 }

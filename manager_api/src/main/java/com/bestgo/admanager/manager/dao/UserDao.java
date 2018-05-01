@@ -29,4 +29,8 @@ public interface UserDao {
     int insertUser(User user);
 
     Integer queryUserIdByLoginacct(String loginacct);
+
+    User queryUserById(Integer id);
+
+    int updateUser(User user);
 }

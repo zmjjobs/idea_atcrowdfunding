@@ -39,12 +39,24 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public int saveUser(User user) {
-//        Integer id = userDao.queryUserIdByLoginacct(user.getLoginacct());
-//        if(id != null){
-//            return -2;
-//        }
+        Integer id = userDao.queryUserIdByLoginacct(user.getLoginacct());
+        if(id != null){
+            return -2;
+        }
         user.setUserpswd(MD5Util.digest(Const.DEFAULT_PASSWORD));
         user.setCreatetime(DateStringConvertUtil.dateToString(new Date(),"yyyy-MM-dd HH:mm:ss"));
         return userDao.insertUser(user);
     }
+
+    @Override
+    public User queryUserById(Integer id) {
+        return userDao.queryUserById(id);
+    }
+
+    @Override
+    public int updateUser(User user) {
+        return userDao.updateUser(user);
+    }
+
+
 }

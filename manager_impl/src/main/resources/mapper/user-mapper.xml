@@ -46,4 +46,13 @@
     <select id="queryUserIdByLoginacct" parameterType="string" resultType="integer">
         SELECT id FROM t_user WHERE loginacct = #{loginacct}
     </select>
+
+    <select id="queryUserById" parameterType="integer" resultType="user">
+        SELECT <include refid="allSql"/> FROM t_user WHERE id = #{id}
+    </select>
+
+    <update id="updateUser" parameterType="user">
+        UPDATE t_user SET loginacct = #{loginacct},username = #{username},email = #{email}
+        WHERE  id = #{id}
+    </update>
 </mapper>

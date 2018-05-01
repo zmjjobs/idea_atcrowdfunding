@@ -1,10 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>尚筹网 - 用户维护</title>
+    <title>用户维护 - 修改用户</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,13 +12,12 @@
     <link rel="stylesheet" href="${APP_PATH}/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="${APP_PATH}/css/font-awesome.min.css">
     <link rel="stylesheet" href="${APP_PATH}/css/main.css">
+    <link rel="stylesheet" href="${APP_PATH}/css/doc.min.css">
     <style>
         .tree li {
             list-style-type: none;
             cursor:pointer;
         }
-        table tbody tr:nth-child(odd){background:#F4F4F4;}
-        table tbody td:nth-child(even){color:#C00;}
     </style>
 </head>
 
@@ -33,7 +30,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <jsp:include page="/common/userinfo.jsp"/>
+                <li style="padding-top:8px;">
+                    <jsp:include page="/common/userinfo.jsp"/>
+                </li>
                 <li style="margin-left:10px;padding-top:8px;">
                     <button type="button" class="btn btn-default btn-danger">
                         <span class="glyphicon glyphicon-question-sign"></span> 帮助
@@ -62,7 +61,7 @@
                                 <a href="${APP_PATH}/user/toIndex.htm" style="color:red;"><i class="glyphicon glyphicon-user"></i> 用户维护</a>
                             </li>
                             <li style="height:30px;">
-                                <a href="role.html"><i class="glyphicon glyphicon-king"></i> 角色维护</a>
+                                <a href="role.html"><i class="glyphicon glyphicon-certificate"></i> 角色维护</a>
                             </li>
                             <li style="height:30px;">
                                 <a href="permission.html"><i class="glyphicon glyphicon-lock"></i> 许可维护</a>
@@ -116,56 +115,62 @@
             </div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <ol class="breadcrumb">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">数据列表</a></li>
+                <li class="active">修改</li>
+            </ol>
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
-                </div>
+                <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
                 <div class="panel-body">
-                    <form class="form-inline" role="form" style="float:left;">
-                        <div class="form-group has-feedback">
-                            <div class="input-group">
-                                <div class="input-group-addon">查询条件</div>
-                                <input id="queryText" class="form-control has-success" type="text" placeholder="模糊查询账户">
-                            </div>
+                    <form role="form" id="updateForm">
+                        <div class="form-group">
+                            <label for="formLoginacct">登录账号</label>
+                            <input type="text" class="form-control" id="formLoginacct" value="${user.loginacct}">
                         </div>
-                        <button id="queryBtn" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                        <div class="form-group">
+                            <label for="formUsername">用户名称</label>
+                            <input type="text" class="form-control" id="formUsername" value="${user.username}">
+                        </div>
+                        <div class="form-group">
+                            <label for="formEmail">邮箱地址</label>
+                            <input type="email" class="form-control" id="formEmail" value="${user.email}">
+                            <p class="help-block label label-warning">请输入合法的邮箱地址, 格式为： xxxx@xxxx.com</p>
+                        </div>
+                        <button id="updateBtn" type="button" class="btn btn-success"><i class="glyphicon glyphicon-edit"></i> 修改</button>
+                        <button id="resetBtn" type="button" class="btn btn-danger"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
                     </form>
-                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${APP_PATH}/user/toAdd.htm'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
-                    <br>
-                    <hr style="clear:both;">
-                    <div class="table-responsive">
-                        <table class="table  table-bordered">
-                            <thead>
-                            <tr>
-                                <th width="30">#</th>
-                                <th width="30"><input type="checkbox"></th>
-                                <th>账号</th>
-                                <th>名称</th>
-                                <th>邮箱地址</th>
-                                <th width="100">操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <%--异步插入分页数据--%>
-                            </tbody>
-                            <tfoot>
-                            <tr >
-                                <td colspan="6" align="center">
-                                    <ul class="pagination">
-                                       <%--异步插入分页条--%>
-                                    </ul>
-                                </td>
-                            </tr>
-
-                            </tfoot>
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">帮助</h4>
+            </div>
+            <div class="modal-body">
+                <div class="bs-callout bs-callout-info">
+                    <h4>测试标题1</h4>
+                    <p>测试内容1，测试内容1，测试内容1，测试内容1，测试内容1，测试内容1</p>
+                </div>
+                <div class="bs-callout bs-callout-info">
+                    <h4>测试标题2</h4>
+                    <p>测试内容2，测试内容2，测试内容2，测试内容2，测试内容2，测试内容2</p>
+                </div>
+            </div>
+            <!--
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            -->
+        </div>
+    </div>
+</div>
 <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
 <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 <script src="${APP_PATH}/script/docs.min.js"></script>
@@ -182,97 +187,42 @@
                 }
             }
         });
-        <c:if test="${not empty param.pageNum}">
-            queryPageUser(${param.pageNum});
-        </c:if>
-        <c:if test="${empty param.pageNum}">
-            queryPageUser(1);
-        </c:if>
 
-    });
-    $("tbody .btn-success").click(function(){
-        window.location.href = "assignRole.html";
-    });
-    $("tbody .btn-primary").click(function(){
-        window.location.href = "edit.html";
-    });
-
-    var dataObj = {
-        pageNum : 1,
-        pageSize : 10
-    };
-    $("#queryBtn").click(function(){
-        var queryText = $("#queryText").val();
-        if($.trim(queryText) == ""){
-            layer.msg("查询条件不能为空，请输入查询条件！"),{time:1000,icon:5,shift:6},function () {
-                $("#queryText").focus();
-            }
-            return;
-        }
-        dataObj.queryText = $.trim(queryText);
-        queryPageUser(1);
-    });
-
-    function queryPageUser(pageNum){
-        dataObj.pageNum = pageNum;
-        $.ajax({
-            type : "POST",
-            url : "${APP_PATH}/user/doIndex.do",
-            data : dataObj,
-            beforeSend : function () {
-                return true;
-            },
-            success : function(result){
-                if(result.success){
-                    var page = result.page;
-                    var data = page.data;
-                    var content = '';
-                    $.each(data,function(index,user){
-                        content += '<tr>';
-                        content += '    <td> '+(index+1)+'</td>';
-                        content += '    <td><input type="checkbox"></td>';
-                        content += '    <td>'+user.loginacct+'</td>';
-                        content += '    <td>'+user.username+'</td>';
-                        content += '    <td>'+user.email+'</td>';
-                        content += '    <td>';
-                        content += '        <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
-                        content += '        <button type="button" class="btn btn-primary btn-xs" onclick="window.location.href=\'${APP_PATH}/user/toEdit.htm?pageNum='+pageNum+'&id=' + user.id + '\'"><i class=" glyphicon glyphicon-pencil"></i></button>';
-                        content += '        <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
-                        content += '    </td>';
-                        content += '</tr>';
-                    });
-                    $("tbody").html(content);
-
-                    var contentNavigater = '';
-                    if(page.pageNum == 1){
-                        contentNavigater += '<li class="disabled"><a href="#">上一页</a></li>';
+        $("#updateBtn").click(function(){
+            var loadingIndex = -1 ;
+            $.ajax({
+                type : "POST",
+                url : "${APP_PATH}/user/doEdit.do",
+                data : {
+                    loginacct : $("#formLoginacct").val(),
+                    username : $("#formUsername").val(),
+                    email : $("#formEmail").val(),
+                    id : ${user.id}
+                },
+                beforeSend : function(){
+                    loadingIndex = layer.msg('数据正在修改中', {icon: 16});
+                    return true;
+                },
+                success : function(result){
+                    layer.close(loadingIndex);
+                    if(result.success){
+                        layer.msg("数据修改成功,正在跳转列表页面!", {time:1000, icon:6});
+                        window.location.href = "${APP_PATH}/user/toIndex.htm?pageNum=" + ${param.pageNum};
                     }else{
-                        contentNavigater += '<li><a onclick="queryPageUser('+(page.pageNum - 1)+')">上一页</a></li>';
+                        layer.msg("修改用户失败！",{time:1000,icon:5,shift:6});
                     }
-
-                    for(var i = 1;i <= page.totalPage;i++){
-                        if(pageNum == i){
-                            contentNavigater += '<li class="active"><a onclick="queryPageUser('+i+')">'+i+'</a></li>';
-                        }else{
-                            contentNavigater += '<li><a onclick="queryPageUser('+i+')">'+i+'</a></li>';
-                        }
-                    }
-
-                    if(page.pageNum == page.totalPage){
-                        contentNavigater += '<li class="disabled"><a href="#">下一页</a></li>';
-                    }else{
-                        contentNavigater += '<li><a onclick="queryPageUser('+(page.pageNum + 1)+')">下一页</a></li>';
-                    }
-                    $(".pagination").html(contentNavigater);
-                }else{
-                    layer.msg(result.message,{time:1000,icon:5,shift:6});
+                },
+                error : function(){
+                    layer.msg("修改用户失败！",{time:1000,icon:5,shift:6});
                 }
-            },
-            error : function(){
-                layer.msg("分页查询失败！",{time:1000,icon:5,shift:6});
-            }
+            });
+            return;
         });
-    }
+
+        $("#resetBtn").click(function(){
+            $("#updateForm")[0].reset();
+        });
+    });
 </script>
 </body>
 </html>
