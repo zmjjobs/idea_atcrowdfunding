@@ -237,7 +237,7 @@
                         content += '    <td>';
                         content += '        <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-check"></i></button>';
                         content += '        <button type="button" class="btn btn-primary btn-xs" onclick="window.location.href=\'${APP_PATH}/user/toEdit.htm?pageNum='+pageNum+'&id=' + user.id + '\'"><i class=" glyphicon glyphicon-pencil"></i></button>';
-                        content += '        <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i></button>';
+                        content+='	  <button type="button" class="btn btn-danger btn-xs" onclick="deleteUser('+user.id+',\''+user.loginacct+'\')"><i class=" glyphicon glyphicon-remove"></i></button>';
                         content += '    </td>';
                         content += '</tr>';
                     });
@@ -272,6 +272,43 @@
                 layer.msg("分页查询失败！",{time:1000,icon:5,shift:6});
             }
         });
+    }
+
+
+    function deleteUser(id,loginacct){
+
+        layer.confirm("确认删除["+loginacct+"]用户吗?",  {icon: 3, title:'提示'}, function(cindex){
+            var loadingIndex = -1 ;
+            $.ajax({
+                type:"post",
+                url:"${APP_PATH}/user/doDelete.do",
+                data:{
+                    "id":id
+                },
+                beforeSend:function(){
+                    loadingIndex = layer.msg("正在删除数据!", {time:1000, icon:6});
+                    return true ;
+                },
+                success:function(result){
+                    layer.close(loadingIndex);
+                    if(result.success){
+                        layer.msg("用户删除成功", {time:1000, icon:6}, function(){
+                            queryPageUser(1);
+                        });
+                    }else{
+                        layer.msg("删除失败!", {time:1000, icon:5, shift:6});
+                    }
+                },
+                error:function(){
+                    layer.msg("删除失败!", {time:1000, icon:5, shift:6});
+                }
+
+            });
+            layer.close(cindex);
+        }, function(cindex){
+            layer.close(cindex);
+        });
+
     }
 </script>
 </body>

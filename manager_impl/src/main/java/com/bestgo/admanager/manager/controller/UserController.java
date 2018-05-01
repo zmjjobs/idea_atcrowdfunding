@@ -105,4 +105,18 @@ public class UserController {
         }
         return result;
     }
+
+
+    @ResponseBody
+    @RequestMapping("/doDelete")
+    public Object doDelete(Integer id) {
+        AjaxResult result = new AjaxResult();
+        try {
+            int count = userService.deleteUser(id);
+            result.setSuccess(count == 1);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

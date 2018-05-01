@@ -55,4 +55,8 @@
         UPDATE t_user SET loginacct = #{loginacct},username = #{username},email = #{email}
         WHERE  id = #{id}
     </update>
+
+    <delete id="deleteUser" parameterType="int">
+        DELETE   FROM t_user WHERE id = #{id}
+    </delete>
 </mapper>
