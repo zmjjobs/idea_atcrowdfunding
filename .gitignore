@@ -7,16 +7,3 @@
 *.iml
 out
 gen
-bean/src/test/
-bean/target/
-common/pom.xml
-common/src/test/
-common/target/
-manager_api/src/test/
-manager_api/target/generated-sources/
-manager_impl/src/test/
-manager_impl/target/
-pom.xml
-web/src/test/
-web/target/generated-sources/
-/manager_impl/target/
