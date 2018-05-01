@@ -59,4 +59,11 @@
     <delete id="deleteUser" parameterType="int">
         DELETE   FROM t_user WHERE id = #{id}
     </delete>
+
+    <delete id="batchDeleteUserByUsers">
+        DELETE  FROM t_user WHERE id IN
+        <foreach collection="list" open="(" close=")" separator="," item="user">
+            #{user.id}
+        </foreach>
+    </delete>
 </mapper>

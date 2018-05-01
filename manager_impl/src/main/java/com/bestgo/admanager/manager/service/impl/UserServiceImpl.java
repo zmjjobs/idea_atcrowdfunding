@@ -63,5 +63,10 @@ public class UserServiceImpl implements UserService{
         return userDao.deleteUser(id);
     }
 
+    @Override
+    public int batchDeleteUsers(List<User> users) {
+        return userDao.batchDeleteUserByUsers(users);
+    }
+
 
 }

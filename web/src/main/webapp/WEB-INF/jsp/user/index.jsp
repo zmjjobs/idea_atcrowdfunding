@@ -131,6 +131,7 @@
                         <button id="queryBtn" type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
                     <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='${APP_PATH}/user/toAdd.htm'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+                    <button id="batchDeleteBtn" type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i>批量删除</button>
                     <br>
                     <hr style="clear:both;">
                     <div class="table-responsive">
@@ -138,7 +139,7 @@
                             <thead>
                             <tr>
                                 <th width="30">#</th>
-                                <th width="30"><input type="checkbox"></th>
+                                <th width="30"><input id="parentCheckbox" type="checkbox"></th>
                                 <th>账号</th>
                                 <th>名称</th>
                                 <th>邮箱地址</th>
@@ -230,7 +231,7 @@
                     $.each(data,function(index,user){
                         content += '<tr>';
                         content += '    <td> '+(index+1)+'</td>';
-                        content += '    <td><input type="checkbox"></td>';
+                        content += '    <td><input class="childCheckbox" type="checkbox" value="'+user.id+'"></td>';
                         content += '    <td>'+user.loginacct+'</td>';
                         content += '    <td>'+user.username+'</td>';
                         content += '    <td>'+user.email+'</td>';
@@ -308,8 +309,58 @@
         }, function(cindex){
             layer.close(cindex);
         });
-
     }
+
+    $("#parentCheckbox").click(function () {
+        var parentCheckboxStatus = this.checked;
+        $(".childCheckbox").each(function (i,n) {
+            n.checked = parentCheckboxStatus;
+        });
+    });
+
+    $("#batchDeleteBtn").click(function (){
+        var checkboxArr = $(".childCheckbox:checked");
+        var length = checkboxArr.length;
+        var dataObj = {};
+
+        $.each(checkboxArr,function(i,n){
+            dataObj['userList['+i+'].id'] = n.value;
+        });
+
+        if(length>0){
+            layer.confirm("删除这些用户,确认删除?",  {icon: 3, title:'提示'}, function(cindex){
+                var loadingIndex = -1 ;
+                $.ajax({
+                    type:"post",
+                    url:"${APP_PATH}/user/doBatchDeleteUsers.do",
+                    data:dataObj,
+                    beforeSend:function(){
+                        loadingIndex = layer.msg("正在删除数据!", {time:1000, icon:6});
+                        return true ;
+                    },
+                    success:function(result){
+                        layer.close(loadingIndex);
+                        if(result.success){
+                            queryPageUser(1);
+                        }else{
+                            layer.msg("删除失败!", {time:1000, icon:5, shift:6});
+                        }
+                    },
+                    error:function(){
+                        layer.msg("删除失败!", {time:1000, icon:5, shift:6});
+                    }
+
+                });
+
+                layer.close(cindex);
+            }, function(cindex){
+                layer.close(cindex);
+            });
+        }else{
+            layer.msg("请选择要删除的用户!", {time:1000, icon:6});
+        }
+
+    });
 </script>
 </body>
 </html>

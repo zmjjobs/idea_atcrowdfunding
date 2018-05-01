@@ -1,13 +1,16 @@
 package com.bestgo.admanager.manager.controller;
 
+import com.bestgo.admanager.bean.DatasObject;
 import com.bestgo.admanager.bean.User;
 import com.bestgo.admanager.manager.service.UserService;
 import com.bestgo.admanager.util.Const;
 import com.bestgo.admanager.util.Page;
 import com.bestgo.admanager.util.StringUtil;
+import org.activiti.bpmn.model.DataObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -114,6 +117,21 @@ public class UserController {
         try {
             int count = userService.deleteUser(id);
             result.setSuccess(count == 1);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/doBatchDeleteUsers",method = RequestMethod.POST)
+    public Object doBatchDeleteUsers(DatasObject datasObject) {
+        List<User> users = datasObject.getUserList();
+        AjaxResult result = new AjaxResult();
+        try {
+            int count = userService.batchDeleteUsers(users);
+
+            result.setSuccess(count==users.size());
         }catch (Exception e){
             e.printStackTrace();
         }

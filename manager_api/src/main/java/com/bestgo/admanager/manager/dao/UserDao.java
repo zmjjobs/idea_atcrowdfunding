@@ -35,4 +35,7 @@ public interface UserDao {
     int updateUser(User user);
 
     int deleteUser(Integer id);
+
+
+    int batchDeleteUserByUsers(List<User> users);
 }
