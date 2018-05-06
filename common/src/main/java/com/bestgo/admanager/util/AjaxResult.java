@@ -1,44 +1,56 @@
 package com.bestgo.admanager.util;
-
 /**
- * @author mengjun
- * @Date 2018-04-15 22:18
- * @Desc 用于Ajax异步，传参对象
+ * 自定义ajax异步结果封装类
+ *@author zhumengjun
+ *@version 
+ *@datetime 2017年7月8日下午8:29:02  
  */
-public class AjaxResult<T> {
+public class AjaxResult {
+	/**
+	 * true处理成功，false处理失败
+	 */
     private boolean success;
-    private String message;
-    private  Page<T> page;
+    
+    /**
+     * 错误信息
+     */
+    private String errorMessage;
+    
+    /**
+     * page对象
+     */
+    private Page page;
+    
+    /**
+     * 接收的其他任何数据
+     */
+    private Object data;
+    
+	public boolean isSuccess() {
+		return success;
+	}
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+	public Page getPage() {
+		return page;
+	}
+	public void setPage(Page page) {
+		this.page = page;
+	}
+	public Object getData() {
+		return data;
+	}
+	public void setData(Object data) {
+		this.data = data;
+	}
 
-    public AjaxResult() {
-    }
-
-    public AjaxResult(boolean success, String message) {
-        this.success = success;
-        this.message = message;
-    }
-
-    public boolean getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Page<T> getPage() {
-        return page;
-    }
-
-    public void setPage(Page<T> page) {
-        this.page = page;
-    }
+	
+    
 }

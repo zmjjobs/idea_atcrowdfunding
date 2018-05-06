@@ -1,18 +1,34 @@
 package com.bestgo.admanager.bean;
-
+/**  
+ *
+ *  用户角色中间类
+ *@author caisong
+ *@version 
+ *@datetime 2017年7月7日下午6:06:13  
+ *
+ */
 public class UserRole {
+	/**
+	 * 用户与角色中间表id
+	 */
 	private Integer id;
-	private Integer userid;
-	private Integer roleid;
-
+	
+	/**
+	 * 用户的id
+	 */
+	private Integer userId;
+	
+	/**
+	 * 角色的id
+	 */
+	private Integer roleId;
+	
 	public UserRole() {
-		super();
 	}
 
-	public UserRole(Integer userid, Integer roleid) {
-		super();
-		this.userid = userid;
-		this.roleid = roleid;
+	public UserRole(Integer userId, Integer roleId) {
+		this.userId = userId;
+		this.roleId = roleId;
 	}
 
 	public Integer getId() {
@@ -23,26 +39,26 @@ public class UserRole {
 		this.id = id;
 	}
 
-	public Integer getUserid() {
-		return userid;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUserid(Integer userid) {
-		this.userid = userid;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
-	public Integer getRoleid() {
-		return roleid;
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setRoleid(Integer roleid) {
-		this.roleid = roleid;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 
 	@Override
 	public String toString() {
-		return "UserRole [id=" + id + ", userid=" + userid + ", roleid="
-				+ roleid + "]";
+		return "UserRole [id=" + id + ", userId=" + userId + ", roleId="
+				+ roleId + "]";
 	}
 
 }

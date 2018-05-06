@@ -1,8 +1,39 @@
 package com.bestgo.admanager.bean;
-
+/**
+ * 流程单
+ * @author Administrator
+ *
+ */
 public class Ticket {
-	private Integer id,memberid;
-	private String piid,status,authcode,pstep;
+	/**
+	 * 流程单ID
+	 */
+	private Integer id;
+	
+	/**
+	 * 会员ID
+	 */
+	private Integer memberid;
+	
+	/**
+	 *流程实例Id
+	 */
+	private String piid;
+	/**
+	 * 流程单状态，默认为审核中
+	 * 0-审核中，1-审核完毕
+	 */
+	private String status = "0";
+	
+	/**
+	 * 认证验证码
+	 */
+	private String authcode;
+	/**
+	 * 流程所要进行到的步骤
+	 * accttype-账户类型，basicinfo-基本信息，uploadfile-资质文件上传，checkemail-邮箱确认
+	 */
+	private String pstep;
 	public Integer getId() {
 		return id;
 	}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bestgo.admanager.potal.dao.TicketDao">
+
+	<sql id="Base_All">id,memberid,piid,status,authcode,pstep</sql>
+	
+	<select id="queryTicketByMemberid" resultType="Ticket">
+		select <include refid="Base_All"/> from t_ticket 
+		where memberid = #{memberid} and status = "0"
+	</select>
+	
+	
+	<insert id="saveTicket">
+		insert into t_ticket(memberid,status) values (#{memberid},#{status})
+	</insert>
+	
+	<update id="updateTicketProcessStep">
+		update t_ticket set pstep = #{pstep} where id = #{id}
+	</update>
+	
+	<update id="updateTicketInfo">
+		update t_ticket set pstep = #{pstep},piid = #{piid},authcode=#{authcode} where id = #{id}
+	</update>
+</mapper>

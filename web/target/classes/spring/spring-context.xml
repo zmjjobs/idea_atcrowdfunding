@@ -9,14 +9,13 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-	<!-- 配置Spring管理Service和Dao对象，不管理Controller -->
-	<context:component-scan base-package="com.bestgo">
+	<context:component-scan base-package="com.bestgo.admanager">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
 	<!-- 加载外部属性配置文件 -->
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations" value="classpath:db/jdbc.properties" />
+		<property name="locations" value="classpath:/db/jdbc.properties" />
 	</bean>
 	
 	<!-- 配置C3P0数据源 -->
@@ -28,11 +27,11 @@
 	</bean>
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-	    <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"></property>
+	    <property name="configLocation" value="classpath:/mybatis/mybatis-config.xml"></property>
 	    <property name="dataSource" ref="dataSource"></property>
 	    <property name="mapperLocations">
 	        <list>
-	            <value>classpath*:mapper/*mapper.xml</value>
+	            <value>classpath*:mybatis/mapper-*.xml</value>
 	        </list>
 	    </property>
 	</bean>

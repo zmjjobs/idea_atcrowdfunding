@@ -1,5 +1,9 @@
 package com.bestgo.admanager.util;
-
+/**
+ * 处理字符串的工具类
+ * @author zhumengjun
+ *
+ */
 public class StringUtil {
 
 	public static boolean isEmpty(String s) {

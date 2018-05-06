@@ -1,71 +1,51 @@
 package com.bestgo.admanager.listener;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
-import javax.servlet.http.HttpSessionBindingEvent;
+
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.bestgo.admanager.bean.Permission;
+import com.bestgo.admanager.manager.service.PermissionService;
+import com.bestgo.admanager.util.Const;
 
 /**
- * @author mengjun
- * @Desc: 在服务器启动过程中将request.getContextPath()路径存放到application域中
+ * 服务启动时的监听器
+ * 在服务器启动过程中将request.getContextPath()路径存放到application域中.
+ * @author zhumengjun
+ * 
  */
-public class ServerStartUpListener implements ServletContextListener,
-        HttpSessionListener, HttpSessionAttributeListener {
+public class ServerStartUpListener implements ServletContextListener {
 
-    // Public constructor is required by servlet spec
-    public ServerStartUpListener() {
-    }
+	@Override
+	public void contextDestroyed(ServletContextEvent event) {
+		//将request.getContextPath()路径从application域删除
+	}
 
-    // -------------------------------------------------------
-    // ServletContextListener implementation
-    // -------------------------------------------------------
-    public void contextInitialized(ServletContextEvent event) {
-        ServletContext application = event.getServletContext();
-        String contextPath = application.getContextPath();
-        application.setAttribute("APP_PATH",contextPath);
-        System.out.println("contextPath="+contextPath);
-    }
+	@Override
+	public void contextInitialized(ServletContextEvent event) {
+		//将request.getContextPath()路径存放到application域中.
+		ServletContext application = event.getServletContext();
+		String contextPath = application.getContextPath();
+		application.setAttribute("APP_PATH", contextPath);
+		
+		
+		//将所有的许可路径放到set集合中，再放到application域中
+		Set<String> allPermissionUris = new HashSet<>();
+		WebApplicationContext ioc = WebApplicationContextUtils.getRequiredWebApplicationContext(application);
+		PermissionService permissionService = ioc.getBean(PermissionService.class);
+		List<Permission> queryAllPermission = permissionService.queryAllPermission();
+		for (Permission permission : queryAllPermission) {
+			allPermissionUris.add("/" + permission.getUrl());
+		}
+		application.setAttribute(Const.SYSTEM_ALL_PERMISSION_URIS, allPermissionUris);
+		
+	}
 
-    public void contextDestroyed(ServletContextEvent sce) {
-      /* This method is invoked when the Servlet Context 
-         (the Web application) is undeployed or 
-         Application Server shuts down.
-      */
-    }
-
-    // -------------------------------------------------------
-    // HttpSessionListener implementation
-    // -------------------------------------------------------
-    public void sessionCreated(HttpSessionEvent se) {
-      /* Session is created. */
-    }
-
-    public void sessionDestroyed(HttpSessionEvent se) {
-      /* Session is destroyed. */
-    }
-
-    // -------------------------------------------------------
-    // HttpSessionAttributeListener implementation
-    // -------------------------------------------------------
-
-    public void attributeAdded(HttpSessionBindingEvent sbe) {
-      /* This method is called when an attribute 
-         is added to a session.
-      */
-    }
-
-    public void attributeRemoved(HttpSessionBindingEvent sbe) {
-      /* This method is called when an attribute
-         is removed from a session.
-      */
-    }
-
-    public void attributeReplaced(HttpSessionBindingEvent sbe) {
-      /* This method is invoked when an attibute
-         is replaced in a session.
-      */
-    }
 }
